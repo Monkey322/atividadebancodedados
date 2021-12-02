@@ -1,0 +1,13 @@
+{
+   "cliente":{ 
+    "id":"number",
+    "name": "string",
+    "conta":"number",
+    "cpf":"number"},
+    "extract":{
+        "balance":"string",
+        "agency":"number",
+        "account":"number"
+       }
+ 
+}
