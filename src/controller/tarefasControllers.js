@@ -1,7 +1,7 @@
 const tarefas = require("../models/tarefas");
 
 
-const getAll = (red, res) => {
+const getAll = (req, res) => {
     console.log(req.url);
     tarefas.find(function(err, tarefas){
         if(err) {
@@ -24,7 +24,45 @@ const postTarefa = (req, res) => {
     })
 };
 
+const getById = (req, res) => {
+    const id = req.params.id;
+    tarefas.find({ id }, function(err, tarefas){
+        if(err) {
+            res.status(500).send({ message: err.message})
+        }
+        res.status(200).send(tarefas);
+    })
+};
+
+const deleteTarefa = (req, res) => {
+    const id = req.params.id;
+    tarefas.find({ id },function(err, tarefa){
+        if(tarefa.length > 0){
+            tarefas.deleteMany({ id }, function(err){
+                if(err) {
+                    res.status(500).send({
+                        message: err.message,
+                        status: "FAIL"
+                    })
+                }
+                res.status(200).send({
+                    message: "Tarefa removida com sucesso",
+                    status: "SUCESS"                    
+                })
+            })
+        }else{
+            res.status(200).send({
+                message: "Não há tarefa para ser removida ", 
+                status: "EMPTY"
+            })
+        }
+    })
+}
 module.exports = {
     getAll,
-    postTarefa
+    postTarefa,
+    getById,
+    deleteTarefa,
+    deleteTarefaConcluida,
+    putTarefa
 } 
